@@ -1,0 +1,1 @@
+{datos,[{{id,2000},{nacimiento,{fecha,10,10,2014}}},{{id,2010},{nacimiento,{fecha,20,8,1981}}}]}.
