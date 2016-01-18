@@ -1,12 +1,12 @@
 -module(udp_client).
 -compile(export_all).
 
--define(PUERTO, 3010).
+-define(CLIENTE_PUERTO, 3010).
 -define(SERVIDOR_PUERTO, 3000).
 -define(SERVIDOR_HOST, {127, 0, 0, 1}).
 
 start() ->
-    spawn(?MODULE, listen, [?PUERTO]).
+    spawn(?MODULE, listen, [?CLIENTE_PUERTO]).
 
 listen(Puerto) ->
     Opciones = [{active, true}, binary],
