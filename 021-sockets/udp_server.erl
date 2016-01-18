@@ -16,13 +16,14 @@ loop(Socket) ->
     receive 
 	{udp, Socket, Host, Puerto, Bin}  ->
 	    io:format("Se recibio ~p del host ~p del puerto ~p~n", [Bin, Host, Puerto]),
-	    gen_udp:send(Socket, Host, Puerto, [<<"Recibido: ">>, Bin]);
-	{_Desde, terminate} ->
+	    gen_udp:send(Socket, Host, Puerto, [<<"Recibido: ">>, Bin]),
+	    loop(Socket);
+	{stop} ->
 	    ok;
 	Mensaje ->
-	    io:format("Error, se recibio ~p~n", [Mensaje])
-    end,
-    loop(Socket).
+	    io:format("Error, se recibio ~p~n", [Mensaje]),
+	    loop(Socket)
+    end.
 
 	    
 	    

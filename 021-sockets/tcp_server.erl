@@ -20,10 +20,10 @@ listen(Puerto) ->
 aceptador(SocketEscuchador) ->
     {ok, Socket} = gen_tcp:accept(SocketEscuchador),
     spawn(fun() -> aceptador(SocketEscuchador) end),
-    loop(Socket).
-		   
-loop(Socket) ->
     {ok, {Host, Puerto}} = inet:peername(Socket),
+    loop(Socket, Host, Puerto).
+		   
+loop(Socket, Host, Puerto) ->
     receive
 	{tcp, Socket, <<"salir", _/binary>>} ->
 	    io:format("Se recibio salir del host ~p del puerto ~p~n", [Host, Puerto]),
@@ -31,14 +31,12 @@ loop(Socket) ->
 	{tcp, Socket, Bin}  ->
 	    io:format("Se recibio ~p del host ~p del puerto ~p~n", [Bin, Host, Puerto]),
 	    gen_tcp:send(Socket, [<<"Recibido: ">>, Bin]),
-	    loop(Socket);
+	    loop(Socket, Host, Puerto);
 	{tcp_closed, _Puerto} ->
 	    io:format("Se cerro la conexion del host ~p del puerto ~p", [Host, Puerto]);
-	{_Desde, terminate} ->
-	    ok;
 	Mensaje ->
 	    io:format("Error, se recibio ~p~n", [Mensaje]),
-	    loop(Socket)
+	    loop(Socket, Host, Puerto)
     end.
 
 	    

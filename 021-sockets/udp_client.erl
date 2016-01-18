@@ -17,13 +17,16 @@ listen(Puerto) ->
 loop(Socket) ->
     receive 
 	{udp, Socket, Host, Puerto, Bin}  ->
-	    io:format("Se recibio ~s del host ~w del puerto ~w~n", [binary_to_list(Bin), Host, Puerto]);
+	    io:format("Se recibio ~s del host ~w del puerto ~w~n", [binary_to_list(Bin), Host, Puerto]),
+	    loop(Socket);
 	{enviar, Mensaje} ->
-	    gen_udp:send(Socket, ?SERVIDOR_HOST, ?SERVIDOR_PUERTO, Mensaje);
-	{_Desde, terminate} ->
+	    gen_udp:send(Socket, ?SERVIDOR_HOST, ?SERVIDOR_PUERTO, Mensaje),
+	    loop(Socket);
+	{stop} ->
 	    ok;
 	Mensaje ->
-	    io:format("Error, se recibio ~p~n", [Mensaje])
-    end,
-    loop(Socket).
+	    io:format("Error, se recibio ~p~n", [Mensaje]),
+	    loop(Socket)
+    end.
+
     
