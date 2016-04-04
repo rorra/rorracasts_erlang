@@ -12,7 +12,7 @@ retirar(Cliente, Importe) ->
 
 request(Mensaje) ->
     Servidor = global:whereis_name(banco),
-    case Servidor of 
+    case Servidor of
 	undefined ->
 	    {error, node_down};
 	_ ->
@@ -20,7 +20,6 @@ request(Mensaje) ->
 	    Servidor ! {self(), Mensaje},
 	    receive
 		{Servidor, Respuesta} ->
-		    erlang:demonitor(Ref),
 		    Respuesta;
 		{'DOWN', Ref, process, _Pid, _Motivo} ->
 		    io:format("El servidor se cayo"),
@@ -31,5 +30,5 @@ request(Mensaje) ->
 	    end
     end.
 
-	    
-			 
+
+	
