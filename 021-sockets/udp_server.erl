@@ -7,24 +7,20 @@ start() ->
     spawn(?MODULE, listen, [?PUERTO]).
 
 listen(Puerto) ->
-    Opciones = [{active, true}, binary],
+    Opciones = [{active, true}, {mode, binary}],
     {ok, Socket} = gen_udp:open(Puerto, Opciones),
-    io:format("Esuchando en el puerto ~w~n", [Puerto]),
+    io:format("Escuchando en el puerto ~w~n", [Puerto]),
     loop(Socket).
 
 loop(Socket) ->
-    receive 
-	{udp, Socket, Host, Puerto, Bin}  ->
-	    io:format("Se recibio ~p del host ~p del puerto ~p~n", [Bin, Host, Puerto]),
-	    gen_udp:send(Socket, Host, Puerto, [<<"Recibido: ">>, Bin]),
+    receive
+	{udp, Socket, Host, Puerto, Datos} ->
+	    io:format("Se recibio ~p del host ~p en el puerto ~p~n", [Datos, Host, Puerto]),
+	    gen_udp:send(Socket, Host, Puerto, [<<"Recibido: ">>, Datos]),
 	    loop(Socket);
-	{stop} ->
+	stop ->
 	    ok;
 	Mensaje ->
 	    io:format("Error, se recibio ~p~n", [Mensaje]),
 	    loop(Socket)
     end.
-
-	    
-	    
-
