@@ -1,0 +1,2 @@
+-record(usuario, {id, nombre, email}).
+-record(cuenta, {id, usuario_id, balance = 0.0}).
