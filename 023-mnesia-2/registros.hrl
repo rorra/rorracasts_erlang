@@ -1,0 +1,4 @@
+-record(usuario, {id, nombre, email}).
+-record(categoria, {id, nombre}).
+-record(subasta, {id, categoria_id, usuario_id, ganador_id, fecha_inicio, fecha_fin, titulo, descripcion, precio_inicial, precio_final, finalizada = false}).
+-record(oferta, {id, usuario_id, subasta_id, precio, fecha}).
