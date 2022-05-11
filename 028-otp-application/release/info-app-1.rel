@@ -1,0 +1,11 @@
+{
+ release,
+ {"info_app", "1"},
+ {erts, "12.3.1"},
+ [
+  {kernel, "8.3.1"},
+  {stdlib, "3.17.1"},
+  {sasl, "4.1.2"},
+  {info_app, "1"}
+ ]
+}.
